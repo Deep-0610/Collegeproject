@@ -1,0 +1,136 @@
+/* Basic UI styling for admin panel */
+
+.admin-panel {
+  max-width: 900px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 20px;
+  color: #333;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #222;
+}
+
+.admin-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-section {
+  background: white;
+  border-radius: 4px;
+  padding: 15px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.form-section {
+  max-width: 100%;
+}
+
+.list-section {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.chart-section {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Form inputs basic styling */
+input[type="text"],
+input[type="number"],
+button[type="submit"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 10px 0 15px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  color: #333;
+  background: white;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: #666;
+  box-shadow: none;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* JobList basic styling */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  margin-bottom: 10px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+}
+
+button {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #a71d2a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .admin-panel {
+    padding: 15px;
+  }
+  .admin-header {
+    font-size: 1.5rem;
+  }
+  li {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+  button {
+    font-size: 0.85rem;
+    padding: 5px 10px;
+  }
+}
