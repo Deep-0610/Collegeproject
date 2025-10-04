@@ -1,3 +1,4 @@
+
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,18 @@ public class JobExportService {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private JobApplicationStatsRepository jobApplicationStatsRepository;
+
     private static final Logger logger = Logger.getLogger(JobExportService.class.getName());
     private static final String EXPORT_FILE_PATH = "e:/Collegeproject/backend/job_data_export.sql";
 
     public void exportJobsToSqlFile() {
         logger.info("Starting export of job data to SQL file");
-        List<Job> jobs = jobRepository.findAll();
+        List<Job> jobs = jobRepository.findAll().stream().sorted((a, b) -> a.getId().compareTo(b.getId())).toList();
+        List<JobApplicationStats> stats = jobApplicationStatsRepository.findAllSortedByJobId();
         logger.info("Found " + jobs.size() + " jobs to export");
+        logger.info("Found " + stats.size() + " job application stats to export");
 
         // Use absolute path to ensure correct file location
         Path absolutePath = Paths.get(EXPORT_FILE_PATH).toAbsolutePath();
@@ -67,8 +73,20 @@ public class JobExportService {
                 logger.info("Writing SQL line: " + sql.trim());
                 writer.write(sql);
             }
+            writer.write("DELETE FROM job_application_stats;\n");
+            for (JobApplicationStats stat : stats) {
+                String sql = String.format(
+                    "INSERT INTO job_application_stats (id, job_id, applications_filled, applications_accepted) VALUES (%d, %d, %d, %d);\n",
+                    stat.getId(),
+                    stat.getJobId(),
+                    stat.getApplicationsFilled(),
+                    stat.getApplicationsAccepted()
+                );
+                logger.info("Writing SQL line: " + sql.trim());
+                writer.write(sql);
+            }
             writer.flush();
-            logger.info("Flushed writer and successfully exported " + jobs.size() + " jobs to " + absolutePath.toString());
+            logger.info("Flushed writer and successfully exported " + jobs.size() + " jobs and " + stats.size() + " stats to " + absolutePath.toString());
         } catch (IOException e) {
             logger.severe("Error writing to export file: " + e.getMessage());
             e.printStackTrace();

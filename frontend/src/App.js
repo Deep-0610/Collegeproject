@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import JobForm from './components/JobForm';
 import JobList from './components/JobList';
 import SalaryChart from './components/SalaryChart';
+import JobApplicationStatsForm from './components/JobApplicationStatsForm';
 import './App.css';
 
 function App() {
@@ -53,17 +55,27 @@ function App() {
     <div className="admin-panel">
       <header className="admin-header">
         <h1>Admin Panel - Job Opportunities & Growth Tracker (SDG 8)</h1>
+        <nav>
+          <Link to="/">Jobs</Link> | <Link to="/stats">Application Stats</Link>
+        </nav>
       </header>
       <main className="admin-main">
-        <section className="admin-section form-section">
-          <JobForm onAddJob={addJob} />
-        </section>
-        <section className="admin-section list-section">
-          <JobList jobs={jobs} onDeleteJob={deleteJob} onEditJob={editJob} />
-        </section>
-        <section className="admin-section chart-section">
-          <SalaryChart jobs={jobs} />
-        </section>
+        <Routes>
+          <Route path="/" element={
+            <>
+              <section className="admin-section form-section">
+                <JobForm onAddJob={addJob} />
+              </section>
+              <section className="admin-section list-section">
+                <JobList jobs={jobs} onDeleteJob={deleteJob} onEditJob={editJob} />
+              </section>
+              <section className="admin-section chart-section">
+                <SalaryChart jobs={jobs} />
+              </section>
+            </>
+          } />
+          <Route path="/stats" element={<JobApplicationStatsForm />} />
+        </Routes>
       </main>
     </div>
   );
